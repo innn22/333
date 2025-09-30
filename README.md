@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>위험기계·기구 자율점검 – 지게차 자가진단 (표 + 대표 사진 고정 + 확대보기)</title>
   <style>
-    :root{--bg:#f8fafc;--card:#ffffff;--muted:#64748b;--line:#cfd8e3;--ink:#0f172a;--blue:#0ea5e9;--blue-d:#0369a1;--orange:#f59e0b;--orange-d:#c2410c}
+    :root{--bg:#f8fafc;--card:#ffffff;--muted:#64748b;--line:#cfd8e3;--ink:#0f172a;--blue:#0ea5e9;--blue-d:#0369a1;--orange:#f59e0b;--orange-d:#c2410c;--lbW:720px;--lbH:540px} /* --lbW/--lbH: 라이트박스(확대) 이미지 고정 사이즈 */
     html,body{height:100%}
     body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,Segoe UI,Roboto,Apple SD Gothic Neo,Malgun Gothic,sans-serif}
     .container{max-width:860px;margin:0 auto;padding:12px}
