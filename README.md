@@ -28,7 +28,7 @@
     .col-method{width:auto}
     .col-opt{width:70px;text-align:center}
     .itemcell{display:grid;grid-template-columns:96px 1fr;gap:8px;align-items:center}
-    .thumb{width:96px;height:72px;border:1px solid var(--line);border-radius:8px;object-fit:cover;background:#f1f5f9;cursor:zoom-in}
+    .thumb{width:96px;height:72px;border:1px solid var(--line);border-radius:8px;object-fit:cover;background:#f1f5f9;cursor:zoom-in;touch-action:manipulation}
     .itemtext{display:flex;flex-direction:column;gap:2px}
     .label{font-weight:700}
     .method{font-size:12px;color:var(--muted);line-height:1.45;white-space:pre-line}
@@ -42,7 +42,7 @@
     .hero-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
     .hero-title{font-weight:800}
     .hero-box{display:flex;align-items:center;justify-content:center;height:260px;border:1px solid var(--line);border-radius:12px;background:#fafafa}
-    .hero-img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;cursor:zoom-in}
+    .hero-img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;cursor:zoom-in;touch-action:manipulation}
 
     /* ===== 라이트박스(확대보기) ===== */
     .lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:10000}
@@ -140,15 +140,15 @@
     const PLACEHOLDER_THUMB = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="192" height="144"><rect width="100%" height="100%" fill="%23eef2f7"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="%2399a">참고사진</text></svg>';
 
     const checklistTemplate = [
-      { key:'rear_cam',       label:'후방감시카메라',     method:'후방 감시카메라는 상시 전원이 켜져있고 모니터 등 작동에 문제가 없을 것', refImg: '후방감시카메라.png' },
-      { key:'controls_brake', label:'조종장치, 제동장치', method:'조종장치, 클러치, 브레이크 등은 정상작동되고 좌석안전띠가 부착될 것',             refImg: '조종장치.png' },
-      { key:'mirror_alarm',   label:'후사경, 후진경보기', method:'후사경은 정상 부착되고 후진 경보장치는 정상적으로 작동될 것',                    refImg: '후사경.png' },
-      { key:'hydraulic_cyl',  label:'유압장치 및 실린더', method:'유압모터ㆍ실린더ㆍ배관 등에 누유 및 손상, 마모 등이 없을 것',                     refImg: '유압장치.png' },
-      { key:'tire',           label:'차륜(타이어)',       method:'차륜(타이어)의 균열 및 변형이 없고, 체결상태가 양호할 것',                         refImg: '차륜.png' },
+      { key:'rear_cam',       label:'후방감시카메라',     method:'후방 감시카메라는 상시 전원이 켜져있고 모니터 등 작동에 문제가 없을 것', refImg:'후방감시카메라.png'  },
+      { key:'controls_brake', label:'조종장치,<br>제동장치', method:'조종장치, 클러치, 브레이크 등은 정상작동되고 좌석안전띠가 부착될 것',             refImg: '조종장치.png' },
+      { key:'mirror_alarm',   label:'후사경,<br>후진경보기', method:'후사경은 정상 부착되고 후진 경보장치는 정상적으로 작동될 것',                    refImg: '후사경.png' },
+      { key:'hydraulic_cyl',  label:'유압장치<br>및 실린더', method:'유압모터ㆍ실린더ㆍ배관 등에 누유 및 손상, 마모 등이 없을 것',                     refImg:'유압장치.png' },
+      { key:'tire',           label:'차륜(타이어)',       method:'차륜(타이어)의 균열 및 변형이 없고, 체결상태가 양호할 것',                         refImg:'차륜.png'},
       { key:'guard_rail',     label:'방호울',             method:'방호울은 탈락되지 않고 견고히 설치할 것',                                         refImg: '방호울.png' },
-      { key:'fork_handling',  label:'포크 (하역장치)',     method:'변형 및 균열이 없고, 고정핀은 견고하게 체결되어 있을 것',                          refImg: '포크.jpg' },
+      { key:'fork_handling',  label:'포크 (하역장치)',     method:'변형 및 균열이 없고, 고정핀은 견고하게 체결되어 있을 것',                          refImg:'포크.jpg' },
       { key:'lamps',          label:'각종 등화류',        method:'전조ㆍ후미ㆍ방향지시ㆍ경보등의 기능은 정상작동 될 것',                               refImg: '등화류.png' },
-      { key:'head_backrest',  label:'헤드가드, 백레스트', method:'헤드가드와 백레스트는 정상적으로 설치되고 변형 등의 이상이 없을 것',                 refImg: '헤드가드.png' },
+      { key:'head_backrest',  label:'헤드가드,<br>백레스트', method:'헤드가드와 백레스트는 정상적으로 설치되고 변형 등의 이상이 없을 것',                 refImg: '헤드가드.png' },
       { key:'extinguisher',   label:'소화기',             method:'소화기(거치대포함)가 설치되어 있을 것, 사용연수가 지나지 않았는지 확인할 것',        refImg: '소화기.jpg' },
       { key:'etc',            label:'기타',               method:'승강용 발판상태, 타이어 타이거 마크 표시 확인할 것',                              refImg: '타이거.png' }
     ];
@@ -200,10 +200,15 @@
         src: n.getAttribute('data-full') || n.src,
         alt: n.alt || '이미지'
       }));
-      // 클릭 연결
+      // 클릭/터치/키보드 접근성
       Array.from(document.querySelectorAll('#heroImg, .thumb')).forEach((n,idx)=>{
         n.style.cursor='zoom-in';
-        n.addEventListener('click', ()=>openLightbox(idx));
+        n.setAttribute('role','button');
+        n.setAttribute('tabindex','0');
+        const open = (e)=>{ if(e) e.preventDefault(); openLightbox(idx); };
+        n.addEventListener('click', open);
+        n.addEventListener('touchend', open, {passive:false}); // iOS Safari 대응
+        n.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(e);} });
       });
     }
     function openLightbox(index){ gi=index; updateLightbox(); $('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
@@ -240,7 +245,16 @@
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', start); else start();
 
     // 간단 테스트
-    (function(){ try{ setTimeout(()=>{ console.assert(document.querySelectorAll('#tblBody tr').length===11,'행 수가 11이 아님'); console.assert(!!document.getElementById('heroImg'), '대표 사진 요소 누락'); console.assert(typeof downloadPNG==='function','PNG 저장 함수 누락'); },0); }catch(e){} })();
+    (function(){ try{
+      setTimeout(()=>{
+        console.assert(document.querySelectorAll('#tblBody tr').length===11,'행 수가 11이 아님');
+        console.assert(!!document.getElementById('heroImg'), '대표 사진 요소 누락');
+        console.assert(typeof downloadPNG==='function','PNG 저장 함수 누락');
+        // 줄바꿈 라벨 확인 (조종장치/제동장치)
+        const brOK = Array.from(document.querySelectorAll('.label')).some(el=>el.innerHTML.indexOf('<br>')>=0);
+        console.assert(brOK,'줄바꿈 라벨 미적용');
+      },0);
+    }catch(e){} })();
   </script>
 </body>
 </html>
