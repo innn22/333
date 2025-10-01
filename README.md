@@ -28,7 +28,7 @@
     .col-method{width:auto}
     .col-opt{width:70px;text-align:center}
     .itemcell{display:grid;grid-template-columns:96px 1fr;gap:8px;align-items:center}
-    .thumb{width:96px;height:72px;border:1px solid var(--line);border-radius:8px;object-fit:cover;background:#f1f5f9;cursor:zoom-in;touch-action:manipulation}
+    .thumb{width:96px;height:72px;border:1px solid var(--line);border-radius:8px;object-fit:contain;object-position:center center;background:#fff;cursor:zoom-in;touch-action:manipulation;}
     .itemtext{display:flex;flex-direction:column;gap:2px}
     .label{font-weight:700}
     .method{font-size:12px;color:var(--muted);line-height:1.45;white-space:pre-line}
