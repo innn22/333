@@ -58,7 +58,7 @@
 <body>
   <div class="container">
     <header class="head">
-      <h1 class="title">위험기계·기구 자율점검 – 지게차 자가진단</h1>
+      <h1 class="title">지게차 안전 자율 점검표</h1>
       <div class="btns">
         <span id="diag" class="note" style="display:none"></span>
         <button id="pngBtn" class="btn">🖼 이미지</button>
