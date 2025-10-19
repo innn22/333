@@ -195,6 +195,16 @@
 
     /* ================= 라이트박스(확대보기) ================ */
     let gallery=[], gi=0; // gallery items, current index
+    // --- Lightbox 전용 히스토리 제어 ---
+const LB_HASH = '#zoom';
+
+// 뒤로가기(popstate) 시: 라이트박스가 열려있으면 먼저 닫기
+window.addEventListener('popstate', function(){
+  const lbOpen = document.getElementById('lightbox')?.classList.contains('open');
+  if (lbOpen) {
+    closeLightbox(true); // popstate에서 닫힘
+  }
+}); 
     function buildGallery(){
       gallery = Array.from(document.querySelectorAll('#heroImg, .thumb')).map(n=>({
         src: n.getAttribute('data-full') || n.src,
@@ -211,25 +221,46 @@
         n.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(e);} });
       });
     }
-    function openLightbox(index){ gi=index; updateLightbox(); $('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
-    function closeLightbox(){ $('lightbox').classList.remove('open'); document.body.style.overflow=''; }
+    function openLightbox(index){
+  gi = index;
+  updateLightbox();
+  const lb = $('lightbox');
+  if (!lb.classList.contains('open')) {
+    // 페이지 이탈 방지를 위해 라이트박스 전용 히스토리 한 단계 쌓기
+    history.pushState({ lb: true }, '', location.pathname + location.search + LB_HASH);
+  }
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(fromPopstate){
+  $('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+  // 사용자가 버튼/배경/ESC로 닫은 경우: 우리가 쌓았던 #zoom 히스토리 되돌리기
+  if (!fromPopstate && location.hash === LB_HASH) {
+    history.back(); // 해시 제거(popstate 발생) — 하지만 이미 라이트박스는 닫혀있음
+  }
+}
     function prevImg(){ gi = (gi-1+gallery.length)%gallery.length; updateLightbox(); }
     function nextImg(){ gi = (gi+1)%gallery.length; updateLightbox(); }
     function updateLightbox(){ const it=gallery[gi]; $('lbImg').src=it.src; $('lbImg').alt=it.alt; $('lbCap').textContent=it.alt; }
 
     // 라이트박스 바인딩
     (function bindLB(){
-      $('lbClose').addEventListener('click', closeLightbox);
-      $('lbPrev').addEventListener('click', prevImg);
-      $('lbNext').addEventListener('click', nextImg);
-      $('lightbox').addEventListener('click', (e)=>{ if(e.target===e.currentTarget) closeLightbox(); });
-      document.addEventListener('keydown', (e)=>{
-        if(!$('lightbox').classList.contains('open')) return;
-        if(e.key==='Escape') closeLightbox();
-        if(e.key==='ArrowLeft') prevImg();
-        if(e.key==='ArrowRight') nextImg();
-      });
-    })();
+  $('lbClose').addEventListener('click', () => closeLightbox(false));
+  $('lbPrev').addEventListener('click', prevImg);
+  $('lbNext').addEventListener('click', nextImg);
+
+  $('lightbox').addEventListener('click', (e)=>{ 
+    if(e.target===e.currentTarget) closeLightbox(false); 
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(!$('lightbox').classList.contains('open')) return;
+    if(e.key==='Escape') closeLightbox(false);
+    if(e.key==='ArrowLeft') prevImg();
+    if(e.key==='ArrowRight') nextImg();
+  });
+})(); //
 
     /* ===== html2canvas & PNG 저장 ===== */
     function ensureHtml2Canvas(cb){ if(window.html2canvas){ cb(); return; } const diag=$('diag'); diag.style.display='inline'; diag.textContent='이미지 라이브러리 로딩 중...'; const srcs=['https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js','https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js','https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js']; (function load(i){ if(i>=srcs.length){ diag.textContent='이미지 로딩 실패'; return; } const s=document.createElement('script'); s.src=srcs[i]; s.onload=()=>{ diag.textContent=''; diag.style.display='none'; cb(); }; s.onerror=()=>load(i+1); document.head.appendChild(s); })(0); }
